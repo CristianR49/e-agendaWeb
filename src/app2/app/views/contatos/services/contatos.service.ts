@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, catchError, map, tap } from 'rxjs';
+import { Observable, map, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { FormsContatoViewModel } from '../models/forms-contato.view-model';
 import { ListarContatoViewModel } from '../models/listar-contato.view-model';
@@ -20,14 +20,7 @@ export class ContatosService {
       this.endpoint,
       contato,
       this.obterHeadersAutorizacao()
-    // )
-    // .pipe(
-    //   map((res) => res.dados),
-    //   catchError((err: HttpErrorResponse) => {
-        
-    //     return throwError(() => new Error('Erro'))
-    //   })
-    )
+    );
   }
 
   public editar(id: string, contato: FormsContatoViewModel) {
@@ -48,7 +41,7 @@ export class ContatosService {
 
   public selecionarPorId(id: string): Observable<FormsContatoViewModel> {
     return this.http
-      .get<any>(this.endpoint + 'visualizacao-completa/' + id, this.obterHeadersAutorizacao())
+      .get<any>(this.endpoint + id, this.obterHeadersAutorizacao())
       .pipe(map((res) => res.dados));
   }
 

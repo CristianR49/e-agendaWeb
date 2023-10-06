@@ -7,7 +7,6 @@ import { ListarContatosComponent } from './listar-contatos/listar-contatos.compo
 import { RouterModule } from '@angular/router';
 import { EditarContatoComponent } from './editar-contato/editar-contato.component';
 import { ExcluirContatoComponent } from './excluir-contato/excluir-contato.component';
-import { CardContatoComponent } from './card-contato/card-contato.component';
 
 
 
@@ -16,8 +15,7 @@ import { CardContatoComponent } from './card-contato/card-contato.component';
     InserirContatoComponent,
     ListarContatosComponent,
     EditarContatoComponent,
-    ExcluirContatoComponent,
-    CardContatoComponent
+    ExcluirContatoComponent
   ],
   imports: [
     CommonModule, ReactiveFormsModule, RouterModule

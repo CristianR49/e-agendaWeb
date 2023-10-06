@@ -5,34 +5,35 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrModule } from 'ngx-toastr';
-import { DashboardModule } from './views/dashboard/dashboard.module';
+import { bottom } from '@popperjs/core';
 import { CoreModule } from './core/core.module';
+import { DashboardModule } from './views/dashboard/dashboard.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ContatosModule } from './views/contatos/contatos.module';
 import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
-  // Componentes e diretivas que o Módulo Distribui
-  declarations: [AppComponent],
+  // Componentes e Diretivas que o Módulo Distribui
+  declarations: [
+    AppComponent
+  ],
 
-  // Importa metadados de outros módulos (incluindo bibliotecas)
+  //importa metadados de outros módulos (incluindo bibliotecas)
   imports: [
     BrowserModule,
     AppRoutingModule,
     NgbModule,
-
     ToastrModule.forRoot({
       timeOut: 4000,
       positionClass: 'toast-bottom-center',
       preventDuplicates: true,
     }),
-
     HttpClientModule,
     CoreModule,
     DashboardModule,
-    ContatosModule,
+    ContatosModule
   ],
   providers: [],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent]
 })
 export class AppModule {}
