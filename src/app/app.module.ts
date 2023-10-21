@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
@@ -16,6 +16,11 @@ import { CategoriasModule } from './views/categorias/categorias.module';
 import { DespesasModule } from './views/despesas/despesas.module';
 import { RegistroModule } from './views/registro/registro.module';
 import { LoginModule } from './views/login/login.module';
+import { AuthService } from './core/auth/services/auth.service';
+
+function logarUsuarioSalvoFactory(authService: AuthService){
+  return () => authService.logarUsuarioSalvo();
+}
 
 @NgModule({
   // Componentes e diretivas que o Módulo Distribui
@@ -46,7 +51,14 @@ import { LoginModule } from './views/login/login.module';
     LoginModule,
     RegistroModule
   ],
-  providers: [],
+  providers: [
+    {
+    provide: APP_INITIALIZER,
+    useFactory: logarUsuarioSalvoFactory,
+    deps: [AuthService],
+    multi: true
+    },
+],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

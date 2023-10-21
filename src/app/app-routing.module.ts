@@ -1,5 +1,5 @@
 import { NgModule, inject } from '@angular/core';
-import { ActivatedRoute, ActivatedRouteSnapshot, ResolveFn, RouterModule, Routes } from '@angular/router';
+import { ActivatedRoute, ActivatedRouteSnapshot, CanActivateFn, ResolveFn, Router, RouterModule, Routes, UrlTree } from '@angular/router';
 import { DashboardComponent } from './views/dashboard/dashboard.component';
 import { InserirContatoComponent } from './views/contatos/inserir-contato/inserir-contato.component';
 import { ListarContatosComponent } from './views/contatos/listar-contatos/listar-contatos.component';
@@ -21,6 +21,7 @@ import { FormsContatoViewModel } from './views/contatos/models/forms-contato.vie
 import { ContatosService } from './views/contatos/services/contatos.service';
 import { VisualizarContatoViewModel } from './views/contatos/models/visualizar-contato.view-model';
 import { ListarContatoViewModel } from './views/contatos/models/listar-contato.view-model';
+import { authGuard } from './core/auth/guards/auth.guard';
 
 const listarContatosResolver: ResolveFn<ListarContatoViewModel[]> = () => {
   return inject(ContatosService).selecionarTodos()
@@ -38,17 +39,16 @@ const visualizarContatoResolver: ResolveFn<VisualizarContatoViewModel> = (
   return inject(ContatosService).selecionarContatoCompletoPorId(route.paramMap.get('id')!)
 }
 
-
-
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'dashboard',
+    redirectTo: 'login',
     pathMatch: 'full',
   },
   {
     path: 'dashboard',
     component: DashboardComponent,
+    canActivate: [authGuard],
   },
 
   {
@@ -125,7 +125,8 @@ const routes: Routes = [
   {
     path: 'tarefas',
     loadChildren: () =>
-    import('./views/tarefas/tarefas.module').then((m) => m.TarefasModule),
+      import('./views/tarefas/tarefas.module').then((m) => m.TarefasModule),
+    canActivate: [authGuard],
   }
 ];
 
