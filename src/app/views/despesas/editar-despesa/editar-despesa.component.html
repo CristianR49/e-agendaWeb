@@ -1,0 +1,132 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12 col-md-10 col-lg-6 mx-auto mt-5">
+      <div class="text-md-start">
+        <h1 class="fw-bold text-primary">Inserir Nova Despesa</h1>
+      </div>
+
+      <form [formGroup]="form" (ngSubmit)="gravar()" class="mt-4">
+        <div class="form-group mb-3 position-relative">
+          <label class="form-label">Descricao:</label>
+          <input
+            formControlName="descricao"
+            [ngClass]="campoEstaInvalido('descricao') ? 'is-invalid' : ''"
+            class="form-control"
+            type="text"
+            placeholder="Digite o descricao da despesa"
+          />
+          <div class="invalid-tooltip" *ngIf="campoEstaInvalido('descricao')">
+            <span>O descricao precisa ser preenchido.</span>
+          </div>
+        </div>
+
+        <div class="form-group mb-3 position-relative">
+          <label class="form-label">Valor:</label>
+          <input
+            formControlName="valor"
+            [ngClass]="campoEstaInvalido('valor') ? 'is-invalid' : ''"
+            class="form-control"
+            type="text"
+            placeholder="Digite o valor da despesa"
+          />
+          <div class="invalid-tooltip" *ngIf="campoEstaInvalido('valor')">
+            <span>O valor precisa ser preenchido.</span>
+          </div>
+        </div>
+
+        <div class="form-group mb-3 position-relative">
+          <label class="form-label">Data:</label>
+          <input 
+            class="form-control"
+            formControlName="data"
+            [ngClass]="campoEstaInvalido('data') ? 'is-invalid' : ''" 
+            type="date" 
+          />
+        </div>
+
+        <div class="form-group mb-3 position-relative">
+          <label class="form-label">Forma de pagamento:</label>
+
+          <div class="d-flex align-items-center gap-2">
+            <input name="formaPagamento" formControlName="formaPagamento" type="radio" [value]="0" />
+            Dinheiro
+
+            <input name="formaPagamento" formControlName="formaPagamento" type="radio" [value]="1" />
+            Cartão
+
+            <input name="formaPagamento" formControlName="formaPagamento" type="radio" [value]="2" />
+            Pix
+          </div>
+        </div>
+
+        <div class="form-group mb-3 position-relative">
+          <label class="form-label">Categoria:</label>
+          <select
+            class="form-select w-50"
+            name="categoriaId"
+            formControlName="categoriaId"
+          >
+            <option *ngFor="let categoria of categorias" [ngValue]="categoria.id">{{ categoria.titulo }}</option>
+          </select>
+        </div>
+
+        <div class="form-group mb-3 position-relative">
+          <label class="form-label">valor:</label>
+          <input
+            formControlName="valor"
+            [ngClass]="campoEstaInvalido('valor') ? 'is-invalid' : ''"
+            class="form-control"
+            type="text"
+            placeholder="Digite o valor da despesa"
+          />
+          <div class="invalid-tooltip" *ngIf="campoEstaInvalido('valor')">
+            <span>O valor precisa ser preenchido.</span>
+          </div>
+        </div>
+
+        <div class="form-group mb-3 position-relative">
+          <label class="form-label">Cargo:</label>
+          <input
+            formControlName="cargo"
+            [ngClass]="campoEstaInvalido('cargo') ? 'is-invalid' : ''"
+            class="form-control"
+            type="text"
+            placeholder="Digite o cargo da despesa"
+          />
+          <div class="invalid-tooltip" *ngIf="campoEstaInvalido('cargo')">
+            <span>O cargo precisa ser preenchido.</span>
+          </div>
+        </div>
+
+        <div class="form-group mb-3 position-relative">
+          <label class="form-label">Empresa:</label>
+          <input
+            formControlName="empresa"
+            [ngClass]="campoEstaInvalido('empresa') ? 'is-invalid' : ''"
+            class="form-control"
+            type="text"
+            placeholder="Digite a empresa da despesa"
+          />
+          <div class="invalid-tooltip" *ngIf="campoEstaInvalido('empresa')">
+            <span>A empresa precisa ser preenchida.</span>
+          </div>
+        </div>
+
+        <div class="card-footer g-grid d-flex gap-1 mt-5">
+          <button type="submit" class="btn btn-primary px-5">
+            <i class="bi bi-save me-2"></i>
+            Gravar
+          </button>
+          <button
+            routerLink="/despesas/listar"
+            type="button"
+            class="btn btn-outline-primary px-5"
+          >
+            <i class="pi pi-arrow-left me-2"></i>
+            Voltar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

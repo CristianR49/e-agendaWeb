@@ -1,17 +1,18 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, catchError, map, tap } from 'rxjs';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { Observable, catchError, map, tap, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { FormsContatoViewModel } from '../models/forms-contato.view-model';
 import { ListarContatoViewModel } from '../models/listar-contato.view-model';
 import { VisualizarContatoViewModel } from '../models/visualizar-contato.view-model';
+import { LocalStorageService } from 'src/app/core/auth/services/local-storage.service';
 
 @Injectable()
 export class ContatosService {
   private endpoint: string =
     'https://e-agenda-web-api.onrender.com/api/contatos/';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private localStorage : LocalStorageService) {}
 
   public inserir(
     contato: FormsContatoViewModel
@@ -20,14 +21,26 @@ export class ContatosService {
       this.endpoint,
       contato,
       this.obterHeadersAutorizacao()
-    // )
-    // .pipe(
-    //   map((res) => res.dados),
-    //   catchError((err: HttpErrorResponse) => {
-        
-    //     return throwError(() => new Error('Erro'))
-    //   })
     )
+    .pipe(
+      map((res) => res.dados),
+      catchError((err: HttpErrorResponse) => this.processarErroHttp(err))
+    )
+  }
+
+  private processarErroHttp(err: HttpErrorResponse) {
+    let mensagemErro = '';
+
+       if (err.status == 0)
+       mensagemErro = 'Ocorreu um erro ao processar a requisição';
+       
+       if (err.status == 401)
+       mensagemErro = 'O usuário não está autorizado. Efetue login e tente novamente.';
+
+       else
+        mensagemErro = err.error?.erros[0]
+
+        return throwError(() => new Error(mensagemErro))
   }
 
   public editar(id: string, contato: FormsContatoViewModel) {
@@ -37,7 +50,7 @@ export class ContatosService {
   }
 
   public excluir(id: string): Observable<any> {
-    return this.http.delete(this.endpoint + id, this.obterHeadersAutorizacao());
+    return this.http.delete(this.endpoint + id, this.obterHeadersAutorizacao()).pipe(catchError((err: HttpErrorResponse) => this.processarErroHttp(err)));
   }
 
   public selecionarTodos(): Observable<ListarContatoViewModel[]> {
@@ -64,7 +77,7 @@ export class ContatosService {
   }
 
   private obterHeadersAutorizacao() {
-    const token = environment.apiKey;
+    const token = this.localStorage.obterDadosLocaisSalvos()?.chave;
 
     return {
       headers: new HttpHeaders({
