@@ -10,15 +10,15 @@ import { DashboardModule } from './views/dashboard/dashboard.module';
 import { CoreModule } from './core/core.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ContatosModule } from './views/contatos/contatos.module';
-import { HttpClientModule, HttpHandlerFn, HttpInterceptorFn, HttpRequest, provideHttpClient, withInterceptors } from '@angular/common/http';
+import { HttpClientModule, provideHttpClient, withInterceptors } from '@angular/common/http';
 import { CompromissosModule } from './views/compromissos/compromissos.module';
 import { CategoriasModule } from './views/categorias/categorias.module';
 import { DespesasModule } from './views/despesas/despesas.module';
 import { RegistroModule } from './views/registro/registro.module';
 import { LoginModule } from './views/login/login.module';
 import { AuthService } from './core/auth/services/auth.service';
-import { LocalStorageService } from './core/auth/services/local-storage.service';
 import { httpTokenInterceptor } from './core/auth/interceptors/http-token-interceptor';
+import { TarefasModule } from './views/tarefas/tarefas.module';
 
 function logarUsuarioSalvoFactory(authService: AuthService){
   return () => authService.logarUsuarioSalvo();
@@ -50,6 +50,7 @@ function logarUsuarioSalvoFactory(authService: AuthService){
     CompromissosModule,
     CategoriasModule,
     DespesasModule,
+    TarefasModule,
     LoginModule,
     RegistroModule
   ],
